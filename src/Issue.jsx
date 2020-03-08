@@ -13,9 +13,14 @@ class Issue extends React.Component {
     this.handleFilterChange = this.handleFilterChange.bind(this);
   }
 
-  handleFilterChange(e) {
-    this.state({
-      textFiltro: e.target.value
+  handleFilterChange(e) { //filtro q generalmente se hace en el backend
+    const texto = e.target.value; //traigo el valor en una varianle
+    const filtrados = this.state.issues.filter( //en un array guardo datos filtrados
+      i => i.titulo.toUpperCase().indexOf(texto.toUpperCase()) !== -1 //filtro por el titulo en mayusculas y texto en mayusculas
+    );
+    this.setState({ //actualizo el valor del texto
+      textFiltro: texto,
+      issuesFiltrados: filtrados
     });
   }
   render() {
