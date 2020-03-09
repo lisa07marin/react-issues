@@ -12,6 +12,7 @@ class Issue extends React.Component {
       issuesFiltrados: []
     };
     this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.onNewIssue = this.onNewIssue.bind(this);
   }
   loadIssues() {
     const issues = listIssues(); //api
@@ -38,7 +39,7 @@ class Issue extends React.Component {
       issuesFiltrados: filtrados
     });
   }
-//actualizar el listado de issue
+  //actualizar el listado de issue
   onNewIssue() {
     this.loadIssues();
   }
@@ -47,7 +48,7 @@ class Issue extends React.Component {
       <div>
         <Switch>
           <Route path={`${this.props.match.path}/new`}>
-            <IssueNew />
+            <IssueNew onNewIssue={this.onNewIssue} />
           </Route>
           <Route exact path={this.props.match.path}>
             <IssueFilter

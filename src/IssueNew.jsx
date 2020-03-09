@@ -16,6 +16,8 @@ class IssueNew extends React.Component {
     addIssue(values);
     setSubmitting(false);
     this.props.onNewIssue();
+    console.log("history", this.props.history);
+    this.props.history.push("/");
   }
   render() {
     const initialValues = {
@@ -25,7 +27,8 @@ class IssueNew extends React.Component {
     };
 
     return (
-      <Formik initialValues={initialValues} onSubmit={this.onSubmit}>
+      <Formik initialValues={initialValues} 
+              onSubmit={this.onSubmit}>
         {({ isSubmitting }) => (
           <Form as={FormikForm}>
             <Form.Group as={Row}>
