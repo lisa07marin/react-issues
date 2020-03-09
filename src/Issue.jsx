@@ -2,6 +2,7 @@ import React from "react";
 import IssueFilter from "./IssueFilter";
 import IssueList from "./IssueList";
 import IssueNew from "./IssueNew";
+import IssueDetail from "./IssueDetail"
 import { listIssues } from "./sampleData";
 import { withRouter, Route, Switch } from "react-router-dom";
 class Issue extends React.Component {
@@ -46,9 +47,13 @@ class Issue extends React.Component {
   render() {
     return (
       <div>
+        <h3>Issues</h3>
         <Switch>
           <Route path={`${this.props.match.path}/new`}>
             <IssueNew onNewIssue={this.onNewIssue} />
+          </Route>
+          <Route path={`${this.props.match.path}/:issueId`}>
+            <IssueDetail />
           </Route>
           <Route exact path={this.props.match.path}>
             <IssueFilter
@@ -58,7 +63,7 @@ class Issue extends React.Component {
             <IssueList data={this.state.issuesFiltrados} />
           </Route>
         </Switch>
-      </div>
+      </div> 
     );
   }
 }
