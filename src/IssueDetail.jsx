@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { get } from "./sampleData";
+import { get, close, reopen } from "./sampleData";
 import { withRouter, Link } from "react-router-dom";
-import { Badge } from "react-bootstrap";
+import { Badge, Card } from "react-bootstrap";
 import moment from "moment";
-import { Alert } from "react-bootstrap";
 import ReactMarkdown from "react-markdown";
+import { Button } from "react-bootstrap";
 
 class IssueDetail extends Component {
   constructor(props) {
@@ -22,6 +22,23 @@ class IssueDetail extends Component {
     this.cargarIssue();
   }
 
+  loadIssue() {
+    const id = Number(this.props.match.params.issueId);
+    const issue = get(id);
+    this.setState({ issue });
+  }
+
+  onCerrar() {
+    const { issue } = this.state;
+    close(issue.id);
+    this.loadIssue();
+  }
+
+  onReabrir() {
+    reopen(this.state.issue.id);
+    this.loadIssue();
+  }
+
   render() {
     const { issue } = this.state;
     return (
@@ -36,13 +53,34 @@ class IssueDetail extends Component {
           <Badge variant="danger">cerrado</Badge>
         )}
         <span> {issue.usuario}</span>
-        <span>
-          {" "}
-          {moment.unix(issue.fecha).format("MMMM Do YYYY, h:mm:ss a")}
-        </span>
-        <Alert variant="light">
+        <span> {moment.unix(issue.fecha).format("LLLL")}</span>
+
+        <Card border="dark">
           <ReactMarkdown source={issue.contenido} />
-        </Alert>
+        </Card>
+
+        {issue.estado === "closed" && (
+          <div>
+            <Button size="sm" onClick={this.onReabrir.bind(this)}>
+              Reabrir
+            </Button>
+            <span title={moment.unix(issue.modificado).format("LLLL")}>
+              Cerrado {moment.unix(issue.modificado).fromNow()}
+            </span>
+          </div>
+        )}
+        {issue.estado === "open" && (
+          <div>
+            <Button size="sm" onClick={this.onCerrar.bind(this)}>
+              Cerrar
+            </Button>
+            {issue.modificado && (
+              <span title={moment.unix(issue.modificado).format("LLLL")}>
+                Reabierto {moment.unix(issue.modificado).fromNow()}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     );
   }
