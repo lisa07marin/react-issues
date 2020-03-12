@@ -11,15 +11,9 @@ class IssueDetail extends Component {
     super(props);
     this.state = { issue: [] };
   }
-  cargarIssue() {
-    const id = Number(this.props.match.params.issueId);
-    console.log("id: ", id);
-    const issue = get(id);
-    this.setState({ issue });
-  }
 
   componentDidMount() {
-    this.cargarIssue();
+    this.loadIssue();
   }
 
   loadIssue() {
