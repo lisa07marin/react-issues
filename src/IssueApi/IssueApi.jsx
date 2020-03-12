@@ -17,7 +17,8 @@ class IssueApi extends Component {
   }
 
   componentDidMount() {
-    fetch("http://beta-api.sitrack.io/edna/Issue", {
+    const url="http://beta-api.sitrack.io/edna/Issue";
+    fetch(url, {
       headers: {
         "content-type": "application/json",
         Authorization: "basic Z3VpbGhlcm1lLmJldGE6YmV0YQ==",
@@ -50,6 +51,9 @@ class IssueApi extends Component {
       <div>
         <h3>Issues</h3>
         <Switch>
+        <Route path={`${this.props.match.path}/new`}>
+            <IssueNewApi />
+          </Route>
           <Route path={`${this.props.match.path}/:issueId`}>
             <IssueDetailApi />
           </Route>
